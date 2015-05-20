@@ -3,6 +3,8 @@
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
+use \Route, \Session, \Input, \Auth, \Redirect;
+
 class RouteServiceProvider extends ServiceProvider {
 
 	/**
@@ -24,7 +26,24 @@ class RouteServiceProvider extends ServiceProvider {
 	{
 		parent::boot($router);
 
-		//
+		Route::filter('admin', function()
+		{
+			if (!Auth::user() || Auth::user()->admin != 1) return Redirect::to('/');
+		});
+
+		Route::filter('csrf', function()
+		{
+			if (Session::token() != Input::get('_token'))
+			{
+				throw new Illuminate\Session\TokenMismatchException;
+			}
+		});
+
+		Route::filter('auth', function()
+		{
+			if (Auth::guest()) return Redirect::guest('users/signin');
+		});
+
 	}
 
 	/**

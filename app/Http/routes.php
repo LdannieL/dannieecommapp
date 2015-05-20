@@ -11,11 +11,21 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
+Route::get('/', array('uses' => 'StoreController@getIndex'));
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
+	'password' => 'Auth\PasswordController'
+]);
+
+Route::group(array('prefix' => 'admin'), function(){
+	Route::controllers([
+		'categories' => 'CategoriesController',
+		'products' => 'ProductsController'
+	]);
+});
+
+Route::controllers([
+	'store' => 'StoreController',
+	'users' => 'UsersController'
 ]);

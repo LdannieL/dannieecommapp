@@ -4,8 +4,19 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
+use \View;
+use App\models\Category;
+use App\models\Product;
+use App\models\Users;
+
 abstract class Controller extends BaseController {
 
 	use DispatchesCommands, ValidatesRequests;
+
+		public function __construct() {
+		$this->beforeFilter(function() {
+			View::share('catnav', Category::all());
+		});
+	}
 
 }
