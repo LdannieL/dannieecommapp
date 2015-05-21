@@ -31,6 +31,11 @@ class RouteServiceProvider extends ServiceProvider {
 			if (!Auth::user() || Auth::user()->admin != 1) return Redirect::to('/');
 		});
 
+		Route::filter('guest', function()
+		{
+			if (Auth::check()) return Redirect::to('/');
+		});
+
 		Route::filter('csrf', function()
 		{
 			if (Session::token() != Input::get('_token'))

@@ -7,7 +7,7 @@ class CategoriesController extends Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->beforeFilter('csrf', array('on'=>'post'));
-		//$this->middleware('admin');
+		$this->beforeFilter('admin');
 	} 
 
 	public function getIndex() {
